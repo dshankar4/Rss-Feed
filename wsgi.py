@@ -1,2 +1,2 @@
-from flask_rss import getApp
+from flaskapp.flask_rss import getApp
 app = getApp()
