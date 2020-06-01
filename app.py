@@ -1,8 +1,25 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 from flask import render_template, url_for, flash, redirect
-from flask_rss import app
-from flask_rss.models import Rss
-from flask_rss import db
 import feedparser
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+db = SQLAlchemy(app)
+
+class Rss(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(400), unique=True, nullable=False)
+    link = db.Column(db.String(400), unique=True, nullable=False)
+    summary = db.Column(db.String(400), nullable=False)
+    published = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    news = db.Column(db.String(20), nullable=False)
+   
+    def __repr__(self):
+        return f"Title('{self.title}', '{self.link}', '{self.id}')"
+
 hindustan_url = "https://www.hindustantimes.com/rss/topnews/rssfeed.xml"
 timesofindia_url = "https://timesofindia.indiatimes.com/rssfeedstopstories.cms"
 feed1 = feedparser.parse(hindustan_url)
@@ -40,4 +57,10 @@ def timesofindia():
 
 
 
+
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 

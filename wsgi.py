@@ -1,3 +1,4 @@
-from flaskapp.flask_rss import getApp
+from rss-feed.app import app 
+
 if __name__ == "__main__": 
 	app.run()
