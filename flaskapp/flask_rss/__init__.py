@@ -7,5 +7,3 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 from flask_rss import routes
-def getApp():
-    return app
