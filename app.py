@@ -1,7 +1,6 @@
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from flask import render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect
 import feedparser
 
 app = Flask(__name__)
@@ -52,14 +51,6 @@ def hindustan():
 def timesofindia():
     rss = Rss.query.filter_by(news="timesofindia").all()
     return render_template('index.html', contents=rss)
-
-
-
-
-
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
