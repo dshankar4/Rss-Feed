@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>ToDo App</title>
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <h1 style="text-align:center">Rss feed</h1>       
+        {% for cont in contents %}
+        <article class="media">
+            <div class="media-body">
+                <div class="article-metadata">
+                <a class="mr-2" href="#">{{ cont.id }}</a>
+                <small class="text-muted">{{ cont.published }}</small>
+                </div>
+                <h2><a class="article-title" href="#">{{ cont.title }}</a></h2>
+                <p class="article-content">{{ cont.summary }}</p>
+                <p class="article-content">{{ cont.link }}</p>
+            </div>
+            </article>
+        {% endfor %}
+    </div>
+{% endblock %}
+
