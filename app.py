@@ -17,7 +17,7 @@ class Rss(db.Model):
     news = db.Column(db.String(20), nullable=False)
    
     def __repr__(self):
-        return f"Title('{self.title}', '{self.link}', '{self.id}')"
+        return'<Task %r>' % self.id
 
 hindustan_url = "https://www.hindustantimes.com/rss/topnews/rssfeed.xml"
 timesofindia_url = "https://timesofindia.indiatimes.com/rssfeedstopstories.cms"
