@@ -45,12 +45,12 @@ def index():
 @app.route('/hindustan')
 def hindustan():
     rss = Rss.query.filter_by(news="hindustan").all()
-    return render_template('index.html', contents=rss)
+    return render_template('index.html', contents=rss, title="Hidustan")
 
 @app.route('/timesofindia')
 def timesofindia():
     rss = Rss.query.filter_by(news="timesofindia").all()
-    return render_template('index.html', contents=rss)
+    return render_template('index.html', contents=rss, title="Times of India")
 
 if __name__ == '__main__':
     app.run(debug=True)

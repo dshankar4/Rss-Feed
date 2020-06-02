@@ -38,6 +38,17 @@
           
           {% block content %}{% endblock %}
         </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Menu</h3>
+            <p class='text-muted'>NEWS Sites
+              <ul class="list-group">
+                <a href="{{ url_for('hindustan') }}"><li class="list-group-item list-group-item-light">Hindustan Times</li></a>
+                <a href="{{ url_for('timesofindia') }}"><li class="list-group-item list-group-item-light">Times of India</li></a>
+              </ul>
+            </p>
+          </div>
+        </div>
       </div>
     </main>
 

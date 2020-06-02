@@ -4,9 +4,13 @@
 {% endblock %}
 {% block content %}
     <div class="content">
-        <h1 style="text-align:center">Rss feed</h1>       
+        {% if title %}
+            <h1 style="text-align:center">{{title}}</h1>
+        {% else %}
+            <h1 style="text-align:center">RSS FEED</h1>
+        {% endif %}
         {% for cont in contents %}
-        <article class="media">
+        <article class="media" style="margin-bottom: 20px;">
             <div class="media-body">
                 <div class="article-metadata">
                 <a class="mr-2" href="#">{{ cont.id }}</a>
@@ -14,7 +18,7 @@
                 </div>
                 <h2><a class="article-title" href="#">{{ cont.title }}</a></h2>
                 <p class="article-content">{{ cont.summary }}</p>
-                <p class="article-content">{{ cont.link }}</p>
+                <a class="article-content" href="{{ cont.link }}">{{cont.link}}</a>
             </div>
             </article>
         {% endfor %}
