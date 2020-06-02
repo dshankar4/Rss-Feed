@@ -3,6 +3,7 @@
     <title>ToDo App</title>
 {% endblock %}
 {% block content %}
+
     <div class="content">
         {% if title %}
             <h1 style="text-align:center">{{title}}</h1>
@@ -10,18 +11,26 @@
             <h1 style="text-align:center">RSS FEED</h1>
         {% endif %}
         {% for cont in contents %}
-        <article class="media" style="margin-bottom: 20px;">
-            <div class="media-body">
-                <div class="article-metadata">
-                <a class="mr-2" href="#">{{ cont.id }}</a>
-                <small class="text-muted">{{ cont.published }}</small>
-                </div>
-                <h2><a class="article-title" href="#">{{ cont.title }}</a></h2>
-                <p class="article-content">{{ cont.summary }}</p>
-                <a class="article-content" href="{{ cont.link }}">{{cont.link}}</a>
+        <div class="ml-4 ">
+            <div class="news">
+            <div class="news-preview">
+                <img  class="img" src="{{cont.img_path}}" style="height:220px;max-width: 230px;">
             </div>
-            </article>
-        {% endfor %}
+            <div class="news-info">
+                <span class="progress-text">
+                    {{cont.published}}
+                </span>
+                <h6><a href="{{ url_for('page', id=cont.id|string) }}">{{cont.title}}</a></h6>
+                <p>{{cont.summary}}</p>
+                <a href="{{cont.link}}">Read More</a>
+            </div>
+            </div>
+        </div>
+    {% endfor %}
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 {% endblock %}
+
+
+
 

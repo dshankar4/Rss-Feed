@@ -27,32 +27,19 @@
           <div class="navbar-nav">
             <a class="nav-item nav-link" href="{{ url_for('index') }}">Home</a>
             <a class="nav-item nav-link" href="{{ url_for('hindustan') }}">Hindustan</a>
-            <a class="nav-item nav-link" href="{{ url_for('timesofindia') }}">Times of India</a>
+            <a class="nav-item nav-link" href="{{ url_for('businessStandard') }}">Business Standard</a>
           </div>
         </div>
       </nav>
     </header>
     <main role="main" class="container">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
           
           {% block content %}{% endblock %}
         </div>
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>Menu</h3>
-            <p class='text-muted'>NEWS Sites
-              <ul class="list-group">
-                <a href="{{ url_for('hindustan') }}"><li class="list-group-item list-group-item-light">Hindustan Times</li></a>
-                <a href="{{ url_for('timesofindia') }}"><li class="list-group-item list-group-item-light">Times of India</li></a>
-              </ul>
-            </p>
-          </div>
-        </div>
       </div>
     </main>
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
