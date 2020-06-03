@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
+{% if title %}
+            <h1 style="text-align:center">{{title}}</h1>
+        {% else %}
+            <h1 style="text-align:center">RSS FEED</h1>
+        {% endif %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}

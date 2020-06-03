@@ -28,5 +28,12 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+        return f"User('{self.username}', '{self.email}')"
 
+
+class Feed(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    link=db.Column(db.String(20),nullable=False)
+
+    def __repr__(self):
+        return "<id %r>" %self.id

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        <h2>Admin</h2>
+        <form action="{{ url_for('rss') }}" method="post">
+            <label>Rss Url</label><br>
+            <input type="text" id="rss_feed" name="rss_feed"><br>
+            <input type="submit" value="Submit">
+          </form>
+          <p>The characters in a password field are masked (shown as asterisks or circles).</p>
+    </div>
+{% endblock %}
