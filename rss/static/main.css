@@ -1,13 +1,59 @@
 body {
     background: #fafafa;
     color: #333333;
-    margin-top: 5rem;
+    margin-top: 0rem;
   }
   
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
   
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav h1{
+    padding: 8px 8px 8px 32px;
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: grey;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
   .bg-steel {
     background-color: #5f788a;
   }
@@ -30,6 +76,8 @@ body {
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
+    margin-left:26%;
+    width:50%;
   }
   
   .article-title {
@@ -178,5 +226,8 @@ body {
     object-fit:fill;
   }
   .ml-4{
-    margin-left: 10.5rem!important;
+    margin-left: 30.5rem!important;
+  }
+  #submit{
+    margin-left: 10px;
   }
