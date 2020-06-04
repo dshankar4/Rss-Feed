@@ -1,10 +1,20 @@
 {% extends "base.html" %}
+{% block sidebar %}
+        <div class="navbar-nav" style="text-decoration: none;color:aliceblue">
+            <h5>Admin</h5>
+        </div>
+    {% endblock %}
 {% block content %}
-    <div>
-        <h2>Admin</h2>
-        <form action="{{ url_for('rss') }}" method="post"> -->
-            <label>Rss Url</label><br>
-            <input type="text" id="rss_feed" name="rss_feed"><br>
-            <input type="submit" value="Submit">
+    <div class="card mx-auto" style="width:40rem;margin-top:5rem;">
+        <div class="card-body">
+            <form action="{{ url_for('rss') }}" method="POST">
+                <div class="form-group">
+                <label for="rss_url">RSS URL</label>
+                <input type="text" class="form-control" id="rss_url" aria-describedby="rssFeedHelper" placeholder="Enter a URL">
+                <small id="rssFeedHelper" class="form-text text-muted">A valid RSS Feed URL.</small>
+                </div>
+                <button type="submit" class="btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

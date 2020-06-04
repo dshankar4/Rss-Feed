@@ -5,11 +5,11 @@ from rss import app
 import asyncio
 # from rss import db, bcrypt
 from rss import bcrypt
-from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId
+from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes
 
 q=fetchrss()
 rssfeed= Feedfetch()
-
+admin=0
 @app.route('/', methods=['POST', 'GET'])
 def index(): 
     return render_template('base.html', title='Rss Feed')
@@ -38,8 +38,12 @@ def login():
         user=validateUser(username,password)
         if user == -1:
             return render_template('login.html')
-        else:
+        elif user == 1:
+            admin=1
             return render_template('admin_dashboard.html')
+        else:
+            admin=0
+            return redirect(url_for('allCategories'))
     return render_template('login.html', title='Login')
 
 @app.route("/rss",methods=['POST'])
@@ -49,6 +53,15 @@ def rss():
     return render_template('admin_dashboard.html')
 
 @app.route("/allCategories")
-async def allCategories():
-    # rss = await Feedfetch()
-    return render_template('index.html', title='Rss Feed')
+def allCategories():
+    return render_template('index.html', title='Rss Feed',rss=rssfeed,admin=admin)
+
+@app.route("/countLikes",methods=['POST'])
+def countLikes():
+    likes = incrementLikes(request.json['title'])
+    return render_template('index.html', title='Rss Feed',rss=rssfeed)
+
+@app.route("/countDislikes",methods=['POST'])
+def countDislikes():
+    likes = incrementDislikes(request.json['title'])
+    return render_template('index.html', title='Rss Feed',rss=rssfeed)

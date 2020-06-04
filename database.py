@@ -21,16 +21,14 @@ def validateUser(username,password):
     print("inside validation")
     conn = sqlite3.connect('Rss.db')
     c = conn.cursor()
-    c.execute(" SELECT * FROM Users WHERE username = (?) AND password = (?)",(username,password))
-    if len(c.fetchall())==0 :
+    c.execute(" SELECT * FROM Users WHERE username = (:username)",{'username':username})
+    result=c.fetchall()
+    if len(result)==0 :
         flash("Incorrect Password  !")
         return -1
-    result=c.fetchall()
-    for row in result:
-        print("%d %s",row["id"],row["username"])
     conn.commit()
     conn.close()
-    return 1
+    return result[0][0]
 
 def addFeedUrl(feed):
     conn = sqlite3.connect('Rss.db')
@@ -50,7 +48,7 @@ def feedparse(links):
     c= conn.cursor()
     c.execute(""" SELECT count(name) FROM sqlite_master WHERE type='table' AND name='Feed' """)
     if c.fetchone()[0]!=1 : 
-        c.execute("CREATE TABLE Feed (title TEXT,img_path TEXT,summary TEXT,link TEXT,published TEXT,news TEXT)")
+        c.execute("CREATE TABLE Feed (title TEXT,img_path TEXT,summary TEXT,link TEXT,published TEXT,news TEXT, likes INTEGER, dislikes INTEGER)")
         for link in links:
             for l in range(0,len(links)):
                 feed1 = feedparser.parse(link[0])
@@ -58,14 +56,14 @@ def feedparse(links):
                     entry=feed1.entries[i]
                     date=date_parser.parse(entry.published)
                     if "media_content" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':"hindustan",'published':date})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':"hindustan",'published':date,'likes':0,'dislikes':0})
                     else:
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':"hindustan",'published':date})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':"hindustan",'published':date,'likes':0,'dislikes':0})
                     conn.commit()
     else:
         print("table")
         c.execute("DROP TABLE Feed")
-        c.execute("CREATE TABLE Feed (title TEXT,img_path TEXT,summary TEXT,link TEXT,published TEXT,news TEXT)")
+        c.execute("CREATE TABLE Feed (title TEXT,img_path TEXT,summary TEXT,link TEXT,published TEXT,news TEXT, likes INTEGER, dislikes INTEGER)")
         for link in links:
             for j in range(0,len(links)):
                 feed1 = feedparser.parse(link[0])
@@ -73,9 +71,9 @@ def feedparse(links):
                     entry=feed1.entries[q]
                     date=date_parser.parse(entry.published)
                     if "media_content" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':"hindustan",'published':date})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':"hindustan",'published':date,'likes':0,'dislikes':0})
                     else:
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':"hindustan",'published':date})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':"hindustan",'published':date,'likes':0,'dislikes':0})
                     conn.commit()
     conn.close()
     return 1
@@ -108,3 +106,18 @@ def getRssbyId(id):
     rsspage=c.fetchall()
     conn.close()
     return rsspage
+
+def incrementLikes(id):
+    conn = sqlite3.connect('Rss.db')
+    c = conn.cursor()
+    c.execute(" UPDATE Feed SET likes = likes+1 WHERE title = (:title)",{'title':id})
+    conn.commit()
+    conn.close()
+    return True
+def incrementDislikes(id):
+    conn = sqlite3.connect('Rss.db')
+    c = conn.cursor()
+    c.execute(" UPDATE Feed SET dislikes = dislikes+1 WHERE title = (:title)",{'title':id})
+    conn.commit()
+    conn.close()
+    return True
