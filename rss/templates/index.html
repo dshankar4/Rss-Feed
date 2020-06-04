@@ -2,6 +2,29 @@
 {% block head %}
     <title>ToDo App</title>
 {% endblock %}
+{% block sidebar %}
+    <div id="mySidenav" class="sidenav bg-info">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h1>Categories</h1>
+        <a href="#"></a>
+        <a href="{{ url_for('allCategories') }}">All Feeds</a>
+        <a href="#">India</a>
+        <a href="#">Business</a>
+        <a href="#">Sports</a>
+        <a href="#">World</a>
+        <a href="#">Politics</a>
+        <a href="#">Technology</a>
+        <a href="#">Startup</a>
+        <a href="#">Entertainment</a>
+        <a href="#">Science</a>
+        <a href="#">Automobile</a>
+    </div>
+    <span style="cursor:pointer" class="navbar-brand" onclick="openNav()">&#9776; Menu</span>   
+    <a class="navbar-brand mx-auto" href="#">RSS FEED</a>
+    <div class="navbar-nav">
+        <a  href="{{ url_for('login') }}" style="text-decoration: none;color:aliceblue" >Logout</a>
+    </div>
+{% endblock %}
 {% block content %}
 
     <div class="content">
@@ -10,19 +33,19 @@
         {% else %}
             <h1 style="text-align:center">RSS FEED</h1>
         {% endif %}
-        {% for cont in contents %}
+        {% for cont in rss %}
         <div class="ml-4 ">
             <div class="news">
             <div class="news-preview">
-                <img  class="img" src="{{cont.img_path}}" style="height:220px;max-width: 230px;">
+                <img  class="img" src="{{cont[1]}}" style="height:220px;max-width: 230px;">
             </div>
             <div class="news-info">
                 <span class="progress-text">
-                    {{cont.published}}
+                    {{cont[4]}}
                 </span>
-                <h6><a href="{{ url_for('page', id=cont.id|string) }}">{{cont.title}}</a></h6>
-                <p>{{cont.summary}}</p>
-                <a href="{{cont.link}}">Read More</a>
+                <h6><a href="{{ url_for('page', id=cont[0]|string) }}">{{cont[0]}}</a></h6>
+                <p>{{cont[2]}}</p>
+                <a href="{{cont[3]}}">Read More</a>
             </div>
             </div>
         </div>

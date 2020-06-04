@@ -1,54 +1,35 @@
 {% extends "base.html" %}
+
+{% block title %}
+    <title>Login</title>
+{% endblock title %}
+
+
 {% block content %}
-{% if title %}
-            <h1 style="text-align:center">{{title}}</h1>
-        {% else %}
-            <h1 style="text-align:center">RSS FEED</h1>
-        {% endif %}
-        {% with messages = get_flashed_messages(with_categories=true) %}
+
+<div class="card mx-auto" style="width:40rem;margin-top:5rem;">
+    <div class="card-header text-center bg-info text-white ">Login</div>
+    <div class="card-body">
+    <form method="POST">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required />
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
+        </div>
+        {% with messages = get_flashed_messages()%}
             {% if messages %}
-              {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                  {{ message }}
-                </div>
-              {% endfor %}
+                {% for msg in messages %}
+                    <div style="color:red">{{msg}}</div>
+                {% endfor%}
             {% endif %}
-          {% endwith %}
-    <div class="content-section">
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Join Today</legend>
-                <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-                <div class="form-group">
-                    {{ form.password.label(class="form-control-label") }}
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
-            </div>
-        </form>
+        {% endwith %}
+        <div class="text-center">
+            <button type="submit" >Submit</button>
+        </div>
+    </form>
     </div>
+</div>
 {% endblock content %}
