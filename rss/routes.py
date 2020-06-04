@@ -36,6 +36,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user=validateUser(username,password)
+        global admin
         if user == -1:
             return render_template('login.html')
         elif user == 1:
