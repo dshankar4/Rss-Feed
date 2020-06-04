@@ -1,8 +1,27 @@
 {% extends "base.html" %}
 {% block sidebar %}
-        <div class="navbar-nav" style="text-decoration: none;color:aliceblue">
-            <h5>Admin</h5>
-        </div>
+    <div id="mySidenav" class="sidenav bg-info">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h1>Categories</h1>
+        <a href="#"></a>
+        <a href="{{ url_for('allCategories') }}">All Feeds</a>
+        <a href="#">India</a>
+        <a href="#">Business</a>
+        <a href="#">Sports</a>
+        <a href="#">World</a>
+        <a href="#">Politics</a>
+        <a href="#">Technology</a>
+        <a href="#">Startup</a>
+        <a href="#">Entertainment</a>
+        <a href="#">Science</a>
+        <a href="#">Automobile</a>
+    </div>
+    <span style="cursor:pointer" class="navbar-brand" onclick="openNav()">&#9776; Menu</span>   
+    <a class="navbar-brand mx-auto" href="#">Admin</a>
+    <div class="navbar-nav">
+        <a href="{{ url_for('login') }}" style="text-decoration: none;color:aliceblue" >Logout</a>
+    </div>
+        
     {% endblock %}
 {% block content %}
     <div class="card mx-auto" style="width:40rem;margin-top:5rem;">
