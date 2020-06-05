@@ -6,12 +6,12 @@ import asyncio
 # from rss import db, bcrypt
 from rss import bcrypt
 from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes, editFeed
-
+global admin
 q=fetchrss()
 rssfeed= Feedfetch()
 @app.route('/', methods=['POST', 'GET'])
 def index(): 
-    return render_template('base.html', title='Rss Feed')
+    return redirect(url_for('login'))
 def home():
     return render_template('index.html', title='Rss Feed',rss=rssfeed)
 
@@ -73,4 +73,5 @@ def updateFeed():
         summary = request.form['summary']
         id = request.form['hidtitle']
         rssfeed = editFeed(title,summary,id)
-        return render_template('index.html', title='Rss Feed',rss=rssfeed)
+        return render_template('index.html', title='Rss Feed',rss=rssfeed,admin=1)
+
