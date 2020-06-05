@@ -35,7 +35,7 @@ def addFeedUrl(feed):
     c= conn.cursor()
     c.execute(""" SELECT count(name) FROM sqlite_master WHERE type='table' AND name='Feedurl' """)
     if c.fetchone()[0]!=1 : 
-        c.execute("CREATE TABLE Feedurl (link VARCHAR)")
+        c.execute("CREATE TABLE Feedurl (link VARCHAR,time )")
         c.execute("INSERT INTO Feedurl VALUES (:link)",{'link':feed})
     else:
         c.execute("INSERT INTO Feedurl VALUES (:link)",{'link':feed})
@@ -46,10 +46,18 @@ def addFeedUrl(feed):
 def feedparse(links):
     conn = sqlite3.connect('Rss.db')
     c= conn.cursor()
+    news_type=["topnews","lifestyle","india","business","sports","world","politics","tech"]
     c.execute(""" SELECT count(name) FROM sqlite_master WHERE type='table' AND name='Feed' """)
     if c.fetchone()[0]!=1 :
         c.execute("CREATE TABLE Feed (title TEXT,img_path TEXT,summary TEXT,link TEXT,published TEXT,news TEXT, likes INTEGER, dislikes INTEGER)")
         for link in links:
+            for element in news_type:
+                if element in link[0]:
+                    news=element
+                    break
+                else:
+                    news="allcategory"
+                    continue
             feed1 = feedparser.parse(link[0])
             for i in range(0,len(feed1.entries)):
                 entry=feed1.entries[i]
@@ -60,16 +68,23 @@ def feedparse(links):
                 else:
                     date=date_parser.parse(entry.published)
                     if "media_thumbnail" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_thumbnail[0]['url'],'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_thumbnail[0]['url'],'news':news,'published':date,'likes':0,'dislikes':0})
                     elif "postimage" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.postimage,'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.postimage,'news':news,'published':date,'likes':0,'dislikes':0})
                     elif "media_content" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':news,'published':date,'likes':0,'dislikes':0})
                     else:
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':news,'published':date,'likes':0,'dislikes':0})
                     conn.commit()
     else:
         for link in links:
+            for element in news_type:
+                if element in link[0]:
+                    news=element
+                    break
+                else:
+                    news="allcategory"
+                    continue
             feed1 = feedparser.parse(link[0])
             for q in range(0,len(feed1.entries)):
                 entry=feed1.entries[q]
@@ -80,13 +95,13 @@ def feedparse(links):
                 else:
                     date=date_parser.parse(entry.published)
                     if "media_thumbnail" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_thumbnail[0]['url'],'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_thumbnail[0]['url'],'news':news,'published':date,'likes':0,'dislikes':0})
                     elif "postimage" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.postimage,'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.postimage,'news':news,'published':date,'likes':0,'dislikes':0})
                     elif "media_content" in entry.keys():
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':entry.media_content[0]['url'],'news':news,'published':date,'likes':0,'dislikes':0})
                     else:
-                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':"hindustan",'published':date,'likes':0,'dislikes':0})
+                        c.execute("INSERT INTO Feed VALUES (:title,:img_path,:summary,:link,:published,:news,:likes,:dislikes)",{'title':entry.title,'link':entry.link,'summary':entry.summary,'img_path':"https://www.zylogelastocomp.com/wp-content/uploads/2019/03/notfound.png",'news':news,'published':date,'likes':0,'dislikes':0})
                     conn.commit()
     conn.close()
     return 1
@@ -126,14 +141,17 @@ def incrementLikes(id):
     c.execute(" UPDATE Feed SET likes = likes+1 WHERE title = (:title)",{'title':id})
     conn.commit()
     conn.close()
-    return True
+    feed=Feedfetch()
+    return feed
+
 def incrementDislikes(id):
     conn = sqlite3.connect('Rss.db')
     c = conn.cursor()
     c.execute(" UPDATE Feed SET dislikes = dislikes+1 WHERE title = (:title)",{'title':id})
     conn.commit()
     conn.close()
-    return True
+    feed=Feedfetch()
+    return feed
 
 def editFeed(title,summary,id):
     conn = sqlite3.connect('Rss.db')
@@ -143,3 +161,12 @@ def editFeed(title,summary,id):
     conn.close()
     feed=Feedfetch()
     return feed
+
+def getRssbyName(name):
+    conn = sqlite3.connect('Rss.db')
+    c = conn.cursor()
+    c.execute(" SELECT * FROM Feed where news = (:news)",{'news':name})
+    conn.commit()
+    rsspage=c.fetchall()
+    conn.close()
+    return rsspage

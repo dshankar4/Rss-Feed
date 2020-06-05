@@ -5,7 +5,7 @@ from rss import app
 import asyncio
 # from rss import db, bcrypt
 from rss import bcrypt
-from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes, editFeed
+from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes, editFeed, getRssbyName
 global admin
 q=fetchrss()
 rssfeed= Feedfetch()
@@ -58,13 +58,13 @@ def allCategories():
 
 @app.route("/countLikes",methods=['POST'])
 def countLikes():
-    likes = incrementLikes(request.json['title'])
-    return render_template('index.html', title='Rss Feed',rss=rssfeed)
+    rssfeed = incrementLikes(request.json['title'])
+    return redirect(url_for('allCategories',rssfeed=rssfeed))
 
 @app.route("/countDislikes",methods=['POST'])
 def countDislikes():
-    likes = incrementDislikes(request.json['title'])
-    return render_template('index.html', title='Rss Feed',rss=rssfeed)
+    rssfeed = incrementDislikes(request.json['title'])
+    return redirect(url_for('allCategories',rssfeed=rssfeed))
 
 @app.route("/updateFeed",methods=['POST'])
 def updateFeed():
@@ -74,4 +74,14 @@ def updateFeed():
         id = request.form['hidtitle']
         rssfeed = editFeed(title,summary,id)
         return render_template('index.html', title='Rss Feed',rss=rssfeed,admin=1)
+
+
+@app.route('/getFeeds/<string:name>')
+def getFeeds(name):
+    getfeed=getRssbyName(name)
+    return render_template('index.html', rss=getfeed)
+
+
+
+
 
