@@ -1,17 +1,8 @@
 {% extends 'base.html' %}
 {% block head %}
-    <title>ToDo App</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script>
-        $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var recipient = button.data('whatever') 
-            var modal = $(this)
-            modal.find('.modal-title').text('New message to ' + recipient)
-            modal.find('.modal-body input').val(recipient)
-        })
-    </script>
-{% endblock %}
+<title>ToDo App</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    {% endblock %}
 {% block sidebar %}
     <div id="mySidenav" class="sidenav bg-info">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -43,7 +34,7 @@
             <h1 style="text-align:center">RSS FEED</h1>
         {% endif %}
         {% for cont in rss %}
-        <div class="ml-4 ">
+        <div class="ml-8 ">
             <div class="news">
             <div class="news-preview">
                 <img  class="img" src="{{cont[1]}}" style="height:220px;max-width: 230px;">
@@ -67,42 +58,53 @@
                         </svg>
                     </button>
                      {% else %}
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+                     <button type="button" id="editBtn" onclick='showdata("{{cont[0]}}","{{cont[2]}}")' data-toggle="modal" data-target="#exampleModal" data-whatever={{cont[0]}}>Edit</button>
                 {% endif %}
             </div>
             </div>
         </div>
-{% endfor %}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
-            </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Feed</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/updateFeed">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" id="recipient-name" name="title">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Summary:</label>
+            <textarea class="form-control" id="message-text" name="summary"></textarea>
+          </div>
+          <input type="hidden" name="hidtitle" value={{cont[0]}}>
+          <div class="modal-footer">
+              <button type="submit">Update</button>
         </div>
-        </div>
-        </div>
+        </form>
+      </div> 
     </div>
+  </div>
+</div>
+{% endfor %}
+
+</div>
 <script>
+     
+    function showdata(title,summary) {
+        $('#exampleModal').on('show.bs.modal', function (event) {
+     var button = $(event.relatedTarget)
+      var modal = $(this)
+     modal.find('.modal-body input').val(title)
+     modal.find('.modal-body textarea').val(summary)
+   })
+    }
     function like(title){
         console.log(title)
         jQuery.ajax({

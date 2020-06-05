@@ -29,7 +29,7 @@
             <form action="{{ url_for('rss') }}" method="POST">
                 <div class="form-group">
                 <label for="rss_url">RSS URL</label>
-                <input type="text" class="form-control" id="rss_url" aria-describedby="rssFeedHelper" placeholder="Enter a URL">
+                <input type="text" class="form-control" id="rss_url" name="rss_feed" aria-describedby="rssFeedHelper" placeholder="Enter a URL">
                 <small id="rssFeedHelper" class="form-text text-muted">A valid RSS Feed URL.</small>
                 </div>
                 <button type="submit" class="btn-primary">Submit</button>

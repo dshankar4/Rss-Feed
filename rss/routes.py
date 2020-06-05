@@ -5,11 +5,10 @@ from rss import app
 import asyncio
 # from rss import db, bcrypt
 from rss import bcrypt
-from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes
+from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes, editFeed
 
 q=fetchrss()
 rssfeed= Feedfetch()
-admin=0
 @app.route('/', methods=['POST', 'GET'])
 def index(): 
     return render_template('base.html', title='Rss Feed')
@@ -66,3 +65,12 @@ def countLikes():
 def countDislikes():
     likes = incrementDislikes(request.json['title'])
     return render_template('index.html', title='Rss Feed',rss=rssfeed)
+
+@app.route("/updateFeed",methods=['POST'])
+def updateFeed():
+    if request.method == 'POST':
+        title = request.form['title']
+        summary = request.form['summary']
+        id = request.form['hidtitle']
+        rssfeed = editFeed(title,summary,id)
+        return render_template('index.html', title='Rss Feed',rss=rssfeed)

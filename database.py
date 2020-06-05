@@ -121,3 +121,12 @@ def incrementDislikes(id):
     conn.commit()
     conn.close()
     return True
+
+def editFeed(title,summary,id):
+    conn = sqlite3.connect('Rss.db')
+    c = conn.cursor()
+    c.execute(" UPDATE Feed SET title = (:title), summary = (:summary) WHERE title = (:id)",{'title':title,'summary':summary,'id':id})
+    conn.commit()
+    conn.close()
+    feed=Feedfetch()
+    return feed
