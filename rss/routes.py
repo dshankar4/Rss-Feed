@@ -5,7 +5,7 @@ from rss import app
 import asyncio
 # from rss import db, bcrypt
 from rss import bcrypt
-from database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes, editFeed, getRssbyName
+from rss.database import addUser, validateUser, addFeedUrl, fetchrss, Feedfetch, getRssbyId, incrementLikes, incrementDislikes, editFeed, getRssbyName
 global admin
 q=fetchrss()
 rssfeed= Feedfetch()
